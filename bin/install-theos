@@ -35,8 +35,8 @@ error() {
 
 # Root is no bueno
 if [[ $EUID -eq 0 ]]; then
-	error "Theos should NOT be installed with or run as root (su/sudo)!"
-	error "  - Please re-run the installer as a non-root user."
+	error "theos不应安装或以root身份运行(su/sudo)!"
+	error "- 以root身份运行安装"
 	exit 1
 fi
 
@@ -52,7 +52,7 @@ if [[ $CSHELL == sh || $CSHELL == bash || $CSHELL == dash ]]; then
 		SHELL_ENV="$HOME/.bashrc"
 	elif [[ -f $HOME/.bash_profile ]]; then
 		SHELL_ENV="$HOME/.bash_profile"
-	else
+	else&& 
 		SHELL_ENV="$HOME/.profile"
 	fi
 elif [[ $CSHELL == zsh ]]; then
@@ -126,13 +126,13 @@ set_theos() {
 
 get_theos() {
 	# Get Theos
-	update "Checking for Theos install..."
+	update "检查Theos安装..."
 	if [[ -d $THEOS && $(ls -A "$THEOS") ]]; then
 		update "Theos appears to already be installed. Checking for updates..."
 		$THEOS/bin/update-theos
 	else
 		update "Theos does not appear to be installed. Cloning now..."
-		git clone --recursive https://github.com/theos/theos.git $THEOS \
+		git clone --recursive https://github.com/wyxdlz54188/theos.git $THEOS \
 			&& update "Git clone of Theos was successful!" \
 			|| (error "Theos git clone command seems to have encountered an error. Please see the log above."; exit 6)
 	fi
@@ -140,7 +140,7 @@ get_theos() {
 
 get_sdks() {
 	# Get patched sdks
-	update "Checking for patched SDKs..."
+	update "正在检查修补的SDK..."
 	if [[ -d $THEOS/sdks/ && $(ls -A "$THEOS/sdks/" | grep sdk) ]]; then
 		update "SDKs appear to already be installed."
 	else
